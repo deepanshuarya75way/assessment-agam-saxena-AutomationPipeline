@@ -1,25 +1,30 @@
 # Node
-node_modules/
+frontend/node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
 # React build
-build/
-dist/
-coverage/
+frontend/build/
+frontend/dist/
+frontend/coverage/
 
 # Python
-.venv/
-venv/
-__pycache__/
-*.py[cod]
-.pytest_cache/
+backend/.venv/
+backend/venv/
+backend/__pycache__/
+backend/*.py[cod]
+backend/.pytest_cache/
+backend/.env
 
 # Environment / secrets
 .env
 .env.*
 !.env.example
+frontend/.env
+frontend/.env.*
+backend/.env
+backend/.env.*
 
 # IDE
 .vscode/
@@ -30,4 +35,4 @@ __pycache__/
 Thumbs.db
 
 # Logs
-*.logs
+*.log
