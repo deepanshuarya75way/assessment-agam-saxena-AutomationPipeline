@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { BaseNode } from './BaseNode';
 import { useStore } from '../store';
 
@@ -11,17 +9,12 @@ export const ConditionNode = ({
     (state) => state.updateNodeField
   );
 
-  const [condition, setCondition] =
-    useState(
-      data?.condition ||
-        'value !== null'
-    );
+  const condition = data?.condition ?? 'value !== null';
 
   const handleChange = (event) => {
     const value =
       event.target.value;
 
-    setCondition(value);
 
     updateNodeField(
       id,

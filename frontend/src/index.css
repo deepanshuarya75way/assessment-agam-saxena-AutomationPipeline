@@ -217,6 +217,19 @@ button {
   background: #f9fafb;
 }
 
+.header-button:disabled,
+.header-button.secondary:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+.header-button.secondary:disabled:hover {
+  background: white;
+}
+
 /* -------------------------------------------------------
    WORKSPACE
 ------------------------------------------------------- */

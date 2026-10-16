@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { BaseNode } from './BaseNode';
 import { useStore } from '../store';
 
@@ -8,23 +6,12 @@ export const NoteNode = ({ id, data }) => {
     (state) => state.updateNodeField
   );
 
-  const [note, setNote] = useState(
-    data?.note ||
-      'Add documentation for this workflow...'
-  );
+  const note =
+    data?.note ??
+    'Add documentation for this workflow...';
 
-  const handleChange = (event) => {
-    const value =
-      event.target.value;
-
-    setNote(value);
-
-    updateNodeField(
-      id,
-      'note',
-      value
-    );
-  };
+  const handleChange = (event) =>
+    updateNodeField(id, 'note', event.target.value);
 
   return (
     <BaseNode

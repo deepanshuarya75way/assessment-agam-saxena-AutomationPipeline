@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { BaseNode } from './BaseNode';
 import { useStore } from '../store';
 
@@ -8,23 +6,10 @@ export const DelayNode = ({ id, data }) => {
     (state) => state.updateNodeField
   );
 
-  const [seconds, setSeconds] =
-    useState(
-      data?.seconds ?? '1'
-    );
+  const seconds = data?.seconds ?? '1';
 
-  const handleChange = (event) => {
-    const value =
-      event.target.value;
-
-    setSeconds(value);
-
-    updateNodeField(
-      id,
-      'seconds',
-      value
-    );
-  };
+  const handleChange = (event) =>
+    updateNodeField(id, 'seconds', event.target.value);
 
   return (
     <BaseNode
@@ -32,16 +17,8 @@ export const DelayNode = ({ id, data }) => {
       subtitle="Pause pipeline execution"
       icon="⏱"
       color="#64748b"
-      inputs={[
-        {
-          id: `${id}-input`,
-        },
-      ]}
-      outputs={[
-        {
-          id: `${id}-output`,
-        },
-      ]}
+      inputs={[{ id: `${id}-input` }]}
+      outputs={[{ id: `${id}-output` }]}
     >
       <label className="field-label">
         Delay seconds

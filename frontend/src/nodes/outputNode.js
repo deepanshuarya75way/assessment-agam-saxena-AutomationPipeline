@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { BaseNode } from './BaseNode';
 import { useStore } from '../store';
 
@@ -7,26 +6,11 @@ export const OutputNode = ({ id, data }) => {
     (state) => state.updateNodeField
   );
 
-  const [name, setName] = useState(
-    data?.name || 'output'
-  );
+  const name = data?.name ?? 'output';
+  const outputType = data?.outputType ?? 'Text';
 
-  const [outputType, setOutputType] =
-    useState(
-      data?.outputType || 'Text'
-    );
-
-  const update = (field, setter) => (event) => {
-    const value = event.target.value;
-
-    setter(value);
-
-    updateNodeField(
-      id,
-      field,
-      value
-    );
-  };
+  const update = (field) => (event) =>
+    updateNodeField(id, field, event.target.value);
 
   return (
     <BaseNode
@@ -34,11 +18,7 @@ export const OutputNode = ({ id, data }) => {
       subtitle="Pipeline destination"
       icon="OUT"
       color="#ec4899"
-      inputs={[
-        {
-          id: `${id}-input`,
-        },
-      ]}
+      inputs={[{ id: `${id}-input` }]}
     >
       <label className="field-label">
         Name
@@ -46,10 +26,7 @@ export const OutputNode = ({ id, data }) => {
         <input
           className="field-control"
           value={name}
-          onChange={update(
-            'name',
-            setName
-          )}
+          onChange={update('name')}
         />
       </label>
 
@@ -59,10 +36,7 @@ export const OutputNode = ({ id, data }) => {
         <select
           className="field-control"
           value={outputType}
-          onChange={update(
-            'outputType',
-            setOutputType
-          )}
+          onChange={update('outputType')}
         >
           <option>Text</option>
           <option>File</option>

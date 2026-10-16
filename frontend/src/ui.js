@@ -89,6 +89,12 @@ const selector = (state) => ({
 
   onConnect:
     state.onConnect,
+
+  beginDrag:
+    state.beginDrag,
+
+  endDrag:
+    state.endDrag,
 });
 
 
@@ -123,6 +129,8 @@ export const PipelineUI = () => {
     onNodesChange,
     onEdgesChange,
     onConnect,
+    beginDrag,
+    endDrag,
   } = useStore(
     selector,
     shallow
@@ -369,6 +377,27 @@ export const PipelineUI = () => {
         onInit={
           setReactFlowInstance
         }
+
+        onNodeDragStart={
+          beginDrag
+        }
+
+        onNodeDragStop={
+          endDrag
+        }
+
+        onSelectionDragStart={
+          beginDrag
+        }
+
+        onSelectionDragStop={
+          endDrag
+        }
+
+        deleteKeyCode={[
+          'Backspace',
+          'Delete',
+        ]}
 
         snapToGrid
 

@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { BaseNode } from './BaseNode';
 import { useStore } from '../store';
 
@@ -11,17 +9,12 @@ export const TransformNode = ({
     (state) => state.updateNodeField
   );
 
-  const [operation, setOperation] =
-    useState(
-      data?.operation ||
-        'Uppercase'
-    );
+  const operation = data?.operation ?? 'Uppercase';
 
   const handleChange = (event) => {
     const value =
       event.target.value;
 
-    setOperation(value);
 
     updateNodeField(
       id,

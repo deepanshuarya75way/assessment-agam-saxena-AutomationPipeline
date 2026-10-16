@@ -1,7 +1,6 @@
 import {
   useEffect,
   useMemo,
-  useState,
 } from 'react';
 
 import {
@@ -24,9 +23,8 @@ export const TextNode = ({ id, data }) => {
   const updateNodeInternals =
     useUpdateNodeInternals();
 
-  const [text, setText] = useState(
-    data?.text || 'Hello {{name}}'
-  );
+  // Value lives in the store so undo / redo can restore it.
+  const text = data?.text ?? 'Hello {{name}}';
 
   /*
    * Extract variables from text.
@@ -72,8 +70,6 @@ export const TextNode = ({ id, data }) => {
   const handleChange = (event) => {
     const value =
       event.target.value;
-
-    setText(value);
 
     updateNodeField(
       id,

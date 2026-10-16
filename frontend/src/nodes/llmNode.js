@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { BaseNode } from './BaseNode';
 import { useStore } from '../store';
 
@@ -7,26 +6,11 @@ export const LLMNode = ({ id, data }) => {
     (state) => state.updateNodeField
   );
 
-  const [model, setModel] = useState(
-    data?.model || 'GPT-4o'
-  );
+  const model = data?.model ?? 'GPT-4o';
+  const temperature = data?.temperature ?? '0.7';
 
-  const [temperature, setTemperature] =
-    useState(
-      data?.temperature ?? '0.7'
-    );
-
-  const update = (field, setter) => (event) => {
-    const value = event.target.value;
-
-    setter(value);
-
-    updateNodeField(
-      id,
-      field,
-      value
-    );
-  };
+  const update = (field) => (event) =>
+    updateNodeField(id, field, event.target.value);
 
   return (
     <BaseNode
@@ -34,16 +18,8 @@ export const LLMNode = ({ id, data }) => {
       subtitle="Generate AI responses"
       icon="AI"
       color="#7c3aed"
-      inputs={[
-        {
-          id: `${id}-input`,
-        },
-      ]}
-      outputs={[
-        {
-          id: `${id}-output`,
-        },
-      ]}
+      inputs={[{ id: `${id}-input` }]}
+      outputs={[{ id: `${id}-output` }]}
     >
       <label className="field-label">
         Model
@@ -51,10 +27,7 @@ export const LLMNode = ({ id, data }) => {
         <select
           className="field-control"
           value={model}
-          onChange={update(
-            'model',
-            setModel
-          )}
+          onChange={update('model')}
         >
           <option>GPT-4o</option>
           <option>Claude 3.5</option>
@@ -72,10 +45,7 @@ export const LLMNode = ({ id, data }) => {
           max="2"
           step="0.1"
           value={temperature}
-          onChange={update(
-            'temperature',
-            setTemperature
-          )}
+          onChange={update('temperature')}
         />
       </label>
     </BaseNode>

@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { BaseNode } from './BaseNode';
 import { useStore } from '../store';
 
@@ -11,17 +9,12 @@ export const MergeNode = ({
     (state) => state.updateNodeField
   );
 
-  const [strategy, setStrategy] =
-    useState(
-      data?.strategy ||
-        'Concatenate'
-    );
+  const strategy = data?.strategy ?? 'Concatenate';
 
   const handleChange = (event) => {
     const value =
       event.target.value;
 
-    setStrategy(value);
 
     updateNodeField(
       id,

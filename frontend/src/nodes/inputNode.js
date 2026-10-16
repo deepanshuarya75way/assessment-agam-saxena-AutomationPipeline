@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { BaseNode } from './BaseNode';
 import { useStore } from '../store';
 
@@ -7,25 +6,13 @@ export const InputNode = ({ id, data }) => {
     (state) => state.updateNodeField
   );
 
-  const [name, setName] = useState(
-    data?.name || 'input'
-  );
+  // Values live in the store (not local state) so that
+  // undo / redo can restore them.
+  const name = data?.name ?? 'input';
+  const inputType = data?.inputType ?? 'Text';
 
-  const [inputType, setInputType] = useState(
-    data?.inputType || 'Text'
-  );
-
-  const update = (field, setter) => (event) => {
-    const value = event.target.value;
-
-    setter(value);
-
-    updateNodeField(
-      id,
-      field,
-      value
-    );
-  };
+  const update = (field) => (event) =>
+    updateNodeField(id, field, event.target.value);
 
   return (
     <BaseNode
@@ -33,11 +20,7 @@ export const InputNode = ({ id, data }) => {
       subtitle="Pipeline entry point"
       icon="IN"
       color="#6366f1"
-      outputs={[
-        {
-          id: `${id}-output`,
-        },
-      ]}
+      outputs={[{ id: `${id}-output` }]}
     >
       <label className="field-label">
         Name
@@ -45,10 +28,7 @@ export const InputNode = ({ id, data }) => {
         <input
           className="field-control"
           value={name}
-          onChange={update(
-            'name',
-            setName
-          )}
+          onChange={update('name')}
           placeholder="Input name"
         />
       </label>
@@ -59,10 +39,7 @@ export const InputNode = ({ id, data }) => {
         <select
           className="field-control"
           value={inputType}
-          onChange={update(
-            'inputType',
-            setInputType
-          )}
+          onChange={update('inputType')}
         >
           <option>Text</option>
           <option>File</option>

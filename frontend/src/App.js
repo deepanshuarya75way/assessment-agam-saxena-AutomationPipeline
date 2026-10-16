@@ -29,6 +29,75 @@ function App() {
         state.clearPipeline
     );
 
+  const undo = useStore(
+    (state) => state.undo
+  );
+
+  const redo = useStore(
+    (state) => state.redo
+  );
+
+  const canUndo = useStore(
+    (state) => state.past.length > 0
+  );
+
+  const canRedo = useStore(
+    (state) => state.future.length > 0
+  );
+
+  /*
+   * Keyboard shortcuts:
+   *   Ctrl/Cmd + Z            -> undo
+   *   Ctrl/Cmd + Shift + Z    -> redo
+   *   Ctrl/Cmd + Y            -> redo
+   *
+   * Ignored while typing in a field so the
+   * browser's native text undo keeps working.
+   */
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (!(event.ctrlKey || event.metaKey)) {
+        return;
+      }
+
+      const target = event.target;
+      const tag = target?.tagName;
+
+      if (
+        tag === 'INPUT' ||
+        tag === 'TEXTAREA' ||
+        tag === 'SELECT' ||
+        target?.isContentEditable
+      ) {
+        return;
+      }
+
+      const key = event.key.toLowerCase();
+
+      if (key === 'z' && !event.shiftKey) {
+        event.preventDefault();
+        undo();
+      } else if (
+        (key === 'z' && event.shiftKey) ||
+        key === 'y'
+      ) {
+        event.preventDefault();
+        redo();
+      }
+    };
+
+    window.addEventListener(
+      'keydown',
+      onKeyDown
+    );
+
+    return () =>
+      window.removeEventListener(
+        'keydown',
+        onKeyDown
+      );
+  }, [undo, redo]);
+
   /*
    * Restore saved pipeline.
    */
@@ -140,6 +209,26 @@ function App() {
         </div>
 
         <div className="header-actions">
+          <button
+            className="header-button secondary"
+            onClick={undo}
+            disabled={!canUndo}
+            title="Undo (Ctrl/Cmd+Z)"
+            aria-label="Undo"
+          >
+            ↶ Undo
+          </button>
+
+          <button
+            className="header-button secondary"
+            onClick={redo}
+            disabled={!canRedo}
+            title="Redo (Ctrl/Cmd+Shift+Z or Ctrl/Cmd+Y)"
+            aria-label="Redo"
+          >
+            ↷ Redo
+          </button>
+
           <button
             className="header-button secondary"
             onClick={clear}
